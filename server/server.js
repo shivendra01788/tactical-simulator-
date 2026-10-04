@@ -10,7 +10,7 @@ const VALID_ROLES = ['instructor', 'commander', 'unit'];
 const ROLE_LABEL = { instructor: 'INSTRUCTOR', commander: 'TEAM LEAD', unit: 'INFORMATION' };
 
 // Scenarios are played in this order. Add a new file here to add another scenario to the sequence.
-const SCENARIO_FILES = ['conflicting-picture.json', 'false-withdrawal.json'];
+const SCENARIO_FILES = ['conflicting-picture.json'];
 const DECISION_PAUSE_MS = 8000; // after the last decision's outcome has played, wait this long before moving on
 const NEXT_DELAY_MS = 5000; // pause between the end of one scenario and the start of the next
 
