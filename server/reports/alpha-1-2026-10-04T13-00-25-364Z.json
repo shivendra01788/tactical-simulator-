@@ -1,0 +1,94 @@
+{
+  "sessionId": "alpha-1",
+  "scenario": "Scenario B: Conflicting Picture in Grid Sector 7 (Primary Demo)",
+  "objectives": [
+    "Identify and cross-reference divergent intelligence feeds under temporal delay",
+    "Resolve information asymmetry between Team Lead and Specialist roles before committing assets"
+  ],
+  "reason": "SCENARIO COMPLETE",
+  "startedAt": "2026-10-04T12:54:21.942Z",
+  "endedAt": "2026-10-04T13:00:25.364Z",
+  "durationSeconds": 360,
+  "score": {
+    "total": 0,
+    "max": 100,
+    "percent": 0,
+    "grade": "NEEDS IMPROVEMENT",
+    "decisionPoints": 0,
+    "decisionMax": 60,
+    "infoPoints": 0,
+    "infoMax": 40
+  },
+  "decisions": [
+    {
+      "decisionId": "DP_AXIS_BRAVO_STRIKE",
+      "prompt": "Eagle-1 insists mechanized convoy is advancing. Specialist reports decoy Doppler and OP Echo warns of ambush. Issue order:",
+      "openedAt": 12,
+      "answered": false,
+      "timedOut": true,
+      "optionId": null,
+      "label": null,
+      "decidedAt": null,
+      "responseSeconds": null,
+      "rating": "NO DECISION",
+      "score": 0,
+      "feedback": "No order was issued before the decision window closed."
+    }
+  ],
+  "checks": [
+    {
+      "checkId": "TL_HAS_RADAR",
+      "description": "Team Lead obtained the radar Doppler anomaly before deciding",
+      "passed": false,
+      "points": 0,
+      "maxPoints": 20,
+      "receivedAt": null,
+      "via": null,
+      "clarity": null,
+      "note": "never received"
+    },
+    {
+      "checkId": "TL_HAS_HUMINT",
+      "description": "Team Lead obtained the OP Echo decoy warning before deciding",
+      "passed": false,
+      "points": 0,
+      "maxPoints": 20,
+      "receivedAt": null,
+      "via": null,
+      "clarity": null,
+      "note": "never received"
+    }
+  ],
+  "comms": {
+    "commanderAvgClarity": 92,
+    "repeatRequests": 0,
+    "relays": 0,
+    "dropped": 0
+  },
+  "timeline": [
+    {
+      "t": 3,
+      "text": "TEAM LEAD received Eagle-1 Tactical Optical UAV at 92% clarity"
+    },
+    {
+      "t": 3,
+      "text": "INFORMATION received Eagle-1 Tactical Optical UAV at 85% clarity"
+    },
+    {
+      "t": 6,
+      "text": "INFORMATION received Sentinel Tactical Ground Radar at 90% clarity"
+    },
+    {
+      "t": 9,
+      "text": "INFORMATION received Forward Observation Post Echo at 86% clarity"
+    },
+    {
+      "t": 12,
+      "text": "Decision opened: DP_AXIS_BRAVO_STRIKE"
+    },
+    {
+      "t": 102,
+      "text": "Decision DP_AXIS_BRAVO_STRIKE timed out - no order issued"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "sessionId": "alpha-1",
+  "scenario": "Scenario B: Conflicting Picture in Grid Sector 7 (Primary Demo)",
+  "objectives": [
+    "Identify and cross-reference divergent intelligence feeds under temporal delay",
+    "Resolve information asymmetry between Team Lead and Specialist roles before committing assets"
+  ],
+  "reason": "ENDED BY INSTRUCTOR",
+  "startedAt": "2026-10-04T12:48:15.284Z",
+  "endedAt": "2026-10-04T12:48:53.148Z",
+  "durationSeconds": 37,
+  "score": {
+    "total": 82,
+    "max": 100,
+    "percent": 82,
+    "grade": "SATISFACTORY",
+    "decisionPoints": 42,
+    "decisionMax": 60,
+    "infoPoints": 40,
+    "infoMax": 40
+  },
+  "decisions": [
+    {
+      "decisionId": "DP_AXIS_BRAVO_STRIKE",
+      "prompt": "Eagle-1 insists mechanized convoy is advancing. Specialist reports decoy Doppler and OP Echo warns of ambush. Issue order:",
+      "openedAt": 12,
+      "answered": true,
+      "timedOut": false,
+      "optionId": "OPT_FLANK_CHARLIE",
+      "label": "Preemptive Recon Flank to Ridge Charlie",
+      "decidedAt": 26,
+      "responseSeconds": 14,
+      "rating": "ACCEPTABLE",
+      "score": 70,
+      "feedback": "Avoided the decoy, but acted on a single unverified HUMINT report and risked exposing the recon element."
+    }
+  ],
+  "checks": [
+    {
+      "checkId": "TL_HAS_RADAR",
+      "description": "Team Lead obtained the radar Doppler anomaly before deciding",
+      "passed": true,
+      "points": 20,
+      "maxPoints": 20,
+      "receivedAt": 16,
+      "via": "relayed by team",
+      "clarity": 80,
+      "note": null
+    },
+    {
+      "checkId": "TL_HAS_HUMINT",
+      "description": "Team Lead obtained the OP Echo decoy warning before deciding",
+      "passed": true,
+      "points": 20,
+      "maxPoints": 20,
+      "receivedAt": 18,
+      "via": "relayed by team",
+      "clarity": 64,
+      "note": null
+    }
+  ],
+  "comms": {
+    "commanderAvgClarity": 74,
+    "repeatRequests": 0,
+    "relays": 2,
+    "dropped": 0
+  },
+  "timeline": [
+    {
+      "t": 3,
+      "text": "TEAM LEAD received Eagle-1 Tactical Optical UAV at 77% clarity"
+    },
+    {
+      "t": 3,
+      "text": "INFORMATION received Eagle-1 Tactical Optical UAV at 85% clarity"
+    },
+    {
+      "t": 6,
+      "text": "INFORMATION received Sentinel Tactical Ground Radar at 90% clarity"
+    },
+    {
+      "t": 9,
+      "text": "INFORMATION received Forward Observation Post Echo at 86% clarity"
+    },
+    {
+      "t": 12,
+      "text": "Decision opened: DP_AXIS_BRAVO_STRIKE"
+    },
+    {
+      "t": 16,
+      "text": "INFORMATION relayed Sentinel Tactical Ground Radar to TEAM LEAD"
+    },
+    {
+      "t": 16,
+      "text": "TEAM LEAD received Sentinel Tactical Ground Radar at 80% clarity (relayed by team)"
+    },
+    {
+      "t": 18,
+      "text": "INFORMATION relayed Forward Observation Post Echo to TEAM LEAD"
+    },
+    {
+      "t": 18,
+      "text": "TEAM LEAD received Forward Observation Post Echo at 64% clarity (relayed by team)"
+    },
+    {
+      "t": 26,
+      "text": "TEAM LEAD ordered: Preemptive Recon Flank to Ridge Charlie"
+    }
+  ]
+}

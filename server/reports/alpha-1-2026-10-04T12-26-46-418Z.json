@@ -1,0 +1,69 @@
+{
+  "sessionId": "alpha-1",
+  "scenario": "Scenario B: Conflicting Picture in Grid Sector 7 (Primary Demo)",
+  "objectives": [
+    "Identify and cross-reference divergent intelligence feeds under temporal delay",
+    "Resolve information asymmetry between Team Lead and Specialist roles before committing assets"
+  ],
+  "reason": "ENDED BY INSTRUCTOR",
+  "startedAt": "2026-10-04T12:26:43.781Z",
+  "endedAt": "2026-10-04T12:26:46.418Z",
+  "durationSeconds": 2,
+  "score": {
+    "total": 0,
+    "max": 100,
+    "percent": 0,
+    "grade": "NEEDS IMPROVEMENT",
+    "decisionPoints": 0,
+    "decisionMax": 60,
+    "infoPoints": 0,
+    "infoMax": 40
+  },
+  "decisions": [
+    {
+      "decisionId": "DP_AXIS_BRAVO_STRIKE",
+      "prompt": "Eagle-1 insists mechanized convoy is advancing. Specialist reports decoy Doppler and OP Echo warns of ambush. Issue order:",
+      "openedAt": 12,
+      "answered": false,
+      "timedOut": false,
+      "optionId": null,
+      "label": null,
+      "decidedAt": null,
+      "responseSeconds": null,
+      "rating": "NO DECISION",
+      "score": 0,
+      "feedback": "No order was issued before the decision window closed."
+    }
+  ],
+  "checks": [
+    {
+      "checkId": "TL_HAS_RADAR",
+      "description": "Team Lead obtained the radar Doppler anomaly before deciding",
+      "passed": false,
+      "points": 0,
+      "maxPoints": 20,
+      "receivedAt": null,
+      "via": null,
+      "clarity": null,
+      "note": "never received"
+    },
+    {
+      "checkId": "TL_HAS_HUMINT",
+      "description": "Team Lead obtained the OP Echo decoy warning before deciding",
+      "passed": false,
+      "points": 0,
+      "maxPoints": 20,
+      "receivedAt": null,
+      "via": null,
+      "clarity": null,
+      "note": "never received"
+    }
+  ],
+  "comms": {
+    "commanderAvgClarity": null,
+    "repeatRequests": 0,
+    "relays": 0,
+    "dropped": 0
+  },
+  "timeline": []
+}

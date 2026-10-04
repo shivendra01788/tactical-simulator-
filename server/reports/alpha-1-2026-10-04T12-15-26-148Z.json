@@ -1,0 +1,118 @@
+{
+  "sessionId": "alpha-1",
+  "scenario": "Scenario B: Conflicting Picture in Grid Sector 7 (Primary Demo)",
+  "objectives": [
+    "Identify and cross-reference divergent intelligence feeds under temporal delay",
+    "Resolve information asymmetry between Team Lead and Specialist roles before committing assets"
+  ],
+  "reason": "ENDED BY INSTRUCTOR",
+  "startedAt": "2026-10-04T12:13:06.977Z",
+  "endedAt": "2026-10-04T12:15:26.148Z",
+  "durationSeconds": 138,
+  "score": {
+    "total": 60,
+    "max": 100,
+    "percent": 60,
+    "grade": "SATISFACTORY",
+    "decisionPoints": 60,
+    "decisionMax": 60,
+    "infoPoints": 0,
+    "infoMax": 40
+  },
+  "decisions": [
+    {
+      "decisionId": "DP_AXIS_BRAVO_STRIKE",
+      "prompt": "Eagle-1 insists mechanized convoy is advancing. Specialist reports decoy Doppler and OP Echo warns of ambush. Issue order:",
+      "openedAt": 12,
+      "answered": true,
+      "timedOut": false,
+      "optionId": "OPT_HOLD_VERIFY",
+      "label": "Hold Bridgehead & Request Cross-Verification",
+      "decidedAt": 34,
+      "responseSeconds": 22,
+      "rating": "OPTIMAL",
+      "score": 100,
+      "feedback": "Held the bridgehead and sought cross-verification before committing assets. This is the sound response to conflicting feeds."
+    }
+  ],
+  "checks": [
+    {
+      "checkId": "TL_HAS_RADAR",
+      "description": "Team Lead obtained the radar Doppler anomaly before deciding",
+      "passed": false,
+      "points": 0,
+      "maxPoints": 20,
+      "receivedAt": null,
+      "via": null,
+      "clarity": null,
+      "note": "received but too garbled"
+    },
+    {
+      "checkId": "TL_HAS_HUMINT",
+      "description": "Team Lead obtained the OP Echo decoy warning before deciding",
+      "passed": false,
+      "points": 0,
+      "maxPoints": 20,
+      "receivedAt": null,
+      "via": null,
+      "clarity": null,
+      "note": "received but too garbled"
+    }
+  ],
+  "comms": {
+    "commanderAvgClarity": 73,
+    "repeatRequests": 0,
+    "relays": 3,
+    "dropped": 0
+  },
+  "timeline": [
+    {
+      "t": 6,
+      "text": "TEAM LEAD received Eagle-1 Tactical Optical UAV at 77% clarity"
+    },
+    {
+      "t": 6,
+      "text": "INFORMATION received Eagle-1 Tactical Optical UAV at 85% clarity"
+    },
+    {
+      "t": 10,
+      "text": "INFORMATION received Sentinel Tactical Ground Radar at 90% clarity"
+    },
+    {
+      "t": 12,
+      "text": "INFORMATION received Forward Observation Post Echo at 86% clarity"
+    },
+    {
+      "t": 12,
+      "text": "Decision opened: DP_AXIS_BRAVO_STRIKE"
+    },
+    {
+      "t": 34,
+      "text": "TEAM LEAD ordered: Hold Bridgehead & Request Cross-Verification"
+    },
+    {
+      "t": 40,
+      "text": "INFORMATION relayed Eagle-1 Tactical Optical UAV to TEAM LEAD"
+    },
+    {
+      "t": 41,
+      "text": "INFORMATION relayed Sentinel Tactical Ground Radar to TEAM LEAD"
+    },
+    {
+      "t": 43,
+      "text": "TEAM LEAD received Eagle-1 Tactical Optical UAV at 69% clarity (relayed by team)"
+    },
+    {
+      "t": 43,
+      "text": "INFORMATION relayed Forward Observation Post Echo to TEAM LEAD"
+    },
+    {
+      "t": 45,
+      "text": "TEAM LEAD received Sentinel Tactical Ground Radar at 80% clarity (relayed by team)"
+    },
+    {
+      "t": 45,
+      "text": "TEAM LEAD received Forward Observation Post Echo at 64% clarity (relayed by team)"
+    }
+  ]
+}

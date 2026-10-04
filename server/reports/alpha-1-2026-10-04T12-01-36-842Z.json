@@ -1,0 +1,118 @@
+{
+  "sessionId": "alpha-1",
+  "scenario": "Scenario B: Conflicting Picture in Grid Sector 7 (Primary Demo)",
+  "objectives": [
+    "Identify and cross-reference divergent intelligence feeds under temporal delay",
+    "Resolve information asymmetry between Team Lead and Specialist roles before committing assets"
+  ],
+  "reason": "ENDED BY INSTRUCTOR",
+  "startedAt": "2026-10-04T12:00:10.483Z",
+  "endedAt": "2026-10-04T12:01:36.842Z",
+  "durationSeconds": 85,
+  "score": {
+    "total": 40,
+    "max": 100,
+    "percent": 40,
+    "grade": "NEEDS IMPROVEMENT",
+    "decisionPoints": 0,
+    "decisionMax": 60,
+    "infoPoints": 40,
+    "infoMax": 40
+  },
+  "decisions": [
+    {
+      "decisionId": "DP_AXIS_BRAVO_STRIKE",
+      "prompt": "Eagle-1 insists mechanized convoy is advancing. Specialist reports decoy Doppler and OP Echo warns of ambush. Issue order:",
+      "openedAt": 12,
+      "answered": true,
+      "timedOut": false,
+      "optionId": "OPT_IMMEDIATE_STRIKE",
+      "label": "Commit Quick Reaction Force to Axis Bravo",
+      "decidedAt": 70,
+      "responseSeconds": 58,
+      "rating": "POOR",
+      "score": 0,
+      "feedback": "Committed the QRF against a decoy convoy on one feed while contradicting reports existed, leaving the bridgehead exposed to the real force on Ridge Charlie."
+    }
+  ],
+  "checks": [
+    {
+      "checkId": "TL_HAS_RADAR",
+      "description": "Team Lead obtained the radar Doppler anomaly before deciding",
+      "passed": true,
+      "points": 20,
+      "maxPoints": 20,
+      "receivedAt": 43,
+      "via": "relayed by team",
+      "clarity": 80,
+      "note": null
+    },
+    {
+      "checkId": "TL_HAS_HUMINT",
+      "description": "Team Lead obtained the OP Echo decoy warning before deciding",
+      "passed": true,
+      "points": 20,
+      "maxPoints": 20,
+      "receivedAt": 45,
+      "via": "relayed by team",
+      "clarity": 64,
+      "note": null
+    }
+  ],
+  "comms": {
+    "commanderAvgClarity": 73,
+    "repeatRequests": 0,
+    "relays": 3,
+    "dropped": 0
+  },
+  "timeline": [
+    {
+      "t": 6,
+      "text": "INFORMATION received Eagle-1 Tactical Optical UAV at 85% clarity"
+    },
+    {
+      "t": 7,
+      "text": "TEAM LEAD received Eagle-1 Tactical Optical UAV at 77% clarity"
+    },
+    {
+      "t": 10,
+      "text": "INFORMATION received Sentinel Tactical Ground Radar at 90% clarity"
+    },
+    {
+      "t": 12,
+      "text": "Decision opened: DP_AXIS_BRAVO_STRIKE"
+    },
+    {
+      "t": 13,
+      "text": "INFORMATION received Forward Observation Post Echo at 86% clarity"
+    },
+    {
+      "t": 37,
+      "text": "INFORMATION relayed Eagle-1 Tactical Optical UAV to TEAM LEAD"
+    },
+    {
+      "t": 40,
+      "text": "INFORMATION relayed Sentinel Tactical Ground Radar to TEAM LEAD"
+    },
+    {
+      "t": 41,
+      "text": "TEAM LEAD received Eagle-1 Tactical Optical UAV at 69% clarity (relayed by team)"
+    },
+    {
+      "t": 42,
+      "text": "INFORMATION relayed Forward Observation Post Echo to TEAM LEAD"
+    },
+    {
+      "t": 43,
+      "text": "TEAM LEAD received Sentinel Tactical Ground Radar at 80% clarity (relayed by team)"
+    },
+    {
+      "t": 45,
+      "text": "TEAM LEAD received Forward Observation Post Echo at 64% clarity (relayed by team)"
+    },
+    {
+      "t": 70,
+      "text": "TEAM LEAD ordered: Commit Quick Reaction Force to Axis Bravo"
+    }
+  ]
+}

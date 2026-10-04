@@ -1,0 +1,337 @@
+{
+  "scenario_id": "false-withdrawal",
+  "version": "1.0.0",
+  "title": "Scenario C: False Withdrawal at Checkpoint Delta",
+  "description": "A hostile column appears to withdraw from Checkpoint Delta while other sources indicate a feint ahead of an assault.",
+  "learning_objectives": [
+    "Avoid acting on a single optical feed that shows what the adversary wants seen",
+    "Pull the radar and HUMINT picture from the Information specialist before committing assets"
+  ],
+  "seed": 515151,
+  "duration_seconds": 360,
+  "roles": [
+    {
+      "role_id": "TEAM_LEAD",
+      "title": "Task Force Lead Commander",
+      "clearance_level": "CMD_AUTHORITY"
+    },
+    {
+      "role_id": "COORDINATION",
+      "title": "Tactical Operations",
+      "clearance_level": "OPS_COORDINATION"
+    },
+    {
+      "role_id": "INFORMATION",
+      "title": "Electronic Warfare",
+      "clearance_level": "SIG_INTELLIGENCE"
+    }
+  ],
+  "information_sources": [
+    {
+      "source_id": "SOURCE_A_UAV",
+      "name": "Eagle-1 Tactical Optical UAV",
+      "type": "OPTICAL_FEED",
+      "default_assigned_roles": [
+        "TEAM_LEAD",
+        "COORDINATION"
+      ]
+    },
+    {
+      "source_id": "SOURCE_B_RADAR",
+      "name": "Sentinel Tactical Ground Radar",
+      "type": "RADAR_TELEMETRY",
+      "default_assigned_roles": [
+        "COORDINATION",
+        "INFORMATION"
+      ]
+    },
+    {
+      "source_id": "SOURCE_C_HUMINT",
+      "name": "Forward Observation Post Echo",
+      "type": "HUMINT_DISPATCH",
+      "default_assigned_roles": [
+        "INFORMATION"
+      ]
+    }
+  ],
+  "world_state": {
+    "grid_sector": "GRID_4_DELTA",
+    "unit_start": {
+      "lat": 28.5948,
+      "lng": 77.2005
+    }
+  },
+  "scheduled_events": [
+    {
+      "time_seconds": 3,
+      "event_type": "INFORMATION_GENERATED",
+      "source_id": "SOURCE_A_UAV",
+      "payload": {
+        "status": "HOSTILE_WITHDRAWAL",
+        "summary": "Eagle-1 visual shows hostile column pulling back from Checkpoint Delta toward the northern road."
+      },
+      "map_tracks": [
+        {
+          "entity_id": "TRK-212",
+          "label": "TRK-212",
+          "kind": "hostile",
+          "lat": 28.6003,
+          "lng": 77.206
+        }
+      ],
+      "key_terms": [
+        "column",
+        "delta"
+      ]
+    },
+    {
+      "time_seconds": 6,
+      "event_type": "INFORMATION_GENERATED",
+      "source_id": "SOURCE_B_RADAR",
+      "payload": {
+        "status": "ARMOR_STAGING",
+        "summary": "Sentinel Radar detects heavy armor massing behind the ridge east of Checkpoint Delta."
+      },
+      "map_tracks": [
+        {
+          "entity_id": "TRK-ARMOR",
+          "label": "ARMOR?",
+          "kind": "suspect",
+          "lat": 28.597,
+          "lng": 77.2102
+        }
+      ],
+      "key_terms": [
+        "armor",
+        "massing"
+      ]
+    },
+    {
+      "time_seconds": 9,
+      "event_type": "INFORMATION_GENERATED",
+      "source_id": "SOURCE_C_HUMINT",
+      "payload": {
+        "status": "CONFIRMED_FEINT_DISPATCH",
+        "observation": "Withdrawal is a feint. Hostile armor and infantry are staging at Quarry Foxtrot for a night assault on Checkpoint Delta!"
+      },
+      "map_tracks": [
+        {
+          "entity_id": "TRK-212",
+          "label": "FEINT",
+          "kind": "decoy",
+          "lat": 28.6003,
+          "lng": 77.206
+        },
+        {
+          "entity_id": "TRK-QUARRY-F",
+          "label": "QUARRY-F",
+          "kind": "hostile",
+          "lat": 28.5958,
+          "lng": 77.2118
+        }
+      ],
+      "key_terms": [
+        "feint",
+        "quarry",
+        "foxtrot"
+      ]
+    }
+  ],
+  "degradation_rules": [],
+  "decision_points": [
+    {
+      "decision_point_id": "DP_DELTA_PURSUIT",
+      "trigger_time_seconds": 12,
+      "decision_type": "ACTION_DISPATCH",
+      "prompt": "Eagle-1 shows the hostile column withdrawing from Checkpoint Delta. Radar sees armor massing east of it and OP Echo calls the withdrawal a feint. Issue order:",
+      "allowed_roles": [
+        "TEAM_LEAD"
+      ],
+      "options": [
+        {
+          "option_id": "OPT_PURSUE",
+          "label": "Pursue the Withdrawing Column",
+          "description": "Send the Quick Reaction Force after the column on the northern road."
+        },
+        {
+          "option_id": "OPT_HOLD_REINFORCE",
+          "label": "Reinforce Checkpoint Delta & Request Cross-Verification",
+          "description": "Hold the checkpoint, strengthen it, and authenticate the radar and OP Echo reports."
+        },
+        {
+          "option_id": "OPT_PROBE_FOXTROT",
+          "label": "Probe Quarry Foxtrot",
+          "description": "Send a recon element to Quarry Foxtrot while holding Checkpoint Delta with minimal forces."
+        }
+      ],
+      "timeout_seconds": 90
+    }
+  ],
+  "outcome_rules": [
+    {
+      "decision_point_id": "DP_DELTA_PURSUIT",
+      "option_id": "OPT_HOLD_REINFORCE",
+      "delay_seconds": 6,
+      "tone": "success",
+      "title": "CHECKPOINT DELTA HELD",
+      "message": "Verification confirms the withdrawal was a feint. The reinforced checkpoint absorbs the night assault from Quarry Foxtrot and holds with minimal losses.",
+      "map_tracks": [
+        {
+          "entity_id": "TRK-QUARRY-F",
+          "label": "QUARRY-F (REPULSED)",
+          "kind": "hostile",
+          "lat": 28.5958,
+          "lng": 77.2118
+        }
+      ]
+    },
+    {
+      "decision_point_id": "DP_DELTA_PURSUIT",
+      "option_id": "OPT_PROBE_FOXTROT",
+      "delay_seconds": 8,
+      "tone": "warning",
+      "title": "RECON PINNED AT QUARRY FOXTROT",
+      "message": "The recon element confirms armor at Quarry Foxtrot but is pinned down. Checkpoint Delta holds the assault with a thinned garrison and takes avoidable losses.",
+      "map_tracks": [
+        {
+          "entity_id": "RECON-1",
+          "label": "RECON-1 (PINNED)",
+          "kind": "friendly",
+          "lat": 28.5962,
+          "lng": 77.2108
+        }
+      ]
+    },
+    {
+      "decision_point_id": "DP_DELTA_PURSUIT",
+      "option_id": "OPT_PURSUE",
+      "delay_seconds": 6,
+      "tone": "failure",
+      "title": "QRF DRAWN AWAY FROM DELTA",
+      "message": "The QRF chases a column that was never retreating. The real assault from Quarry Foxtrot hits Checkpoint Delta with its reserve gone, and the checkpoint is overrun.",
+      "map_tracks": [
+        {
+          "entity_id": "QRF-1",
+          "label": "QRF-1 (CUT OFF)",
+          "kind": "friendly",
+          "lat": 28.6008,
+          "lng": 77.2065
+        },
+        {
+          "entity_id": "TRK-ASSAULT",
+          "label": "ASSAULT",
+          "kind": "hostile",
+          "lat": 28.5975,
+          "lng": 77.203
+        }
+      ]
+    },
+    {
+      "decision_point_id": "DP_DELTA_PURSUIT",
+      "option_id": "NO_DECISION",
+      "delay_seconds": 4,
+      "tone": "failure",
+      "title": "NO ORDER ISSUED",
+      "message": "No orders were given in time. The assault from Quarry Foxtrot reaches Checkpoint Delta before it is reinforced.",
+      "map_tracks": [
+        {
+          "entity_id": "TRK-ASSAULT",
+          "label": "ASSAULT",
+          "kind": "hostile",
+          "lat": 28.5975,
+          "lng": 77.203
+        }
+      ]
+    }
+  ],
+  "evaluation_rules": {
+    "decision_weight": 60,
+    "decisions": {
+      "DP_DELTA_PURSUIT": {
+        "OPT_HOLD_REINFORCE": {
+          "score": 100,
+          "rating": "OPTIMAL",
+          "feedback": "Held and reinforced the checkpoint while verifying the conflicting feeds. This is the sound response to a probable feint."
+        },
+        "OPT_PROBE_FOXTROT": {
+          "score": 70,
+          "rating": "ACCEPTABLE",
+          "feedback": "Correctly distrusted the withdrawal, but acted on a single HUMINT report and thinned the checkpoint garrison."
+        },
+        "OPT_PURSUE": {
+          "score": 0,
+          "rating": "POOR",
+          "feedback": "Pursued a feint on one optical feed, pulling the QRF away from Checkpoint Delta just before the real assault."
+        }
+      }
+    },
+    "information_checks": [
+      {
+        "check_id": "TL_HAS_RADAR",
+        "description": "Team Lead obtained the radar armor-massing report before deciding",
+        "source_id": "SOURCE_B_RADAR",
+        "role": "TEAM_LEAD",
+        "before_decision": "DP_DELTA_PURSUIT",
+        "points": 20
+      },
+      {
+        "check_id": "TL_HAS_HUMINT",
+        "description": "Team Lead obtained the OP Echo feint warning before deciding",
+        "source_id": "SOURCE_C_HUMINT",
+        "role": "TEAM_LEAD",
+        "before_decision": "DP_DELTA_PURSUIT",
+        "points": 20
+      }
+    ],
+    "min_key_ratio": 0.5,
+    "specialist_rules": {
+      "response_window_seconds": 20,
+      "relay_checks": [
+        {
+          "check_id": "SP_RELAY_RADAR",
+          "description": "Information relayed the radar armor-massing report to the Team Lead before the decision",
+          "source_id": "SOURCE_B_RADAR",
+          "before_decision": "DP_DELTA_PURSUIT",
+          "points": 20
+        },
+        {
+          "check_id": "SP_RELAY_HUMINT",
+          "description": "Information relayed the OP Echo feint warning to the Team Lead before the decision",
+          "source_id": "SOURCE_C_HUMINT",
+          "before_decision": "DP_DELTA_PURSUIT",
+          "points": 20
+        }
+      ]
+    }
+  },
+  "instructor_injects": [
+    {
+      "inject_id": "INJ_UAV_LOSS",
+      "label": "UAV feed lost",
+      "source_id": "SOURCE_A_UAV",
+      "payload": {
+        "status": "FEED_LOST",
+        "summary": "Eagle-1 optical feed lost. Link reacquiring."
+      },
+      "map_tracks": [],
+      "key_terms": [
+        "feed",
+        "lost"
+      ]
+    },
+    {
+      "inject_id": "INJ_RADAR_UPDATE",
+      "label": "Radar: armor moving toward Delta",
+      "source_id": "SOURCE_B_RADAR",
+      "payload": {
+        "status": "ARMOR_MOVING",
+        "summary": "Sentinel Radar tracks armor moving toward Checkpoint Delta from the east."
+      },
+      "map_tracks": [],
+      "key_terms": [
+        "armor",
+        "moving"
+      ]
+    }
+  ]
+}

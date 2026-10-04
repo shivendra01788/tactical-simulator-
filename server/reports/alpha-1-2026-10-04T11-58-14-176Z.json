@@ -1,0 +1,210 @@
+{
+  "sessionId": "alpha-1",
+  "scenario": "Scenario B: Conflicting Picture in Grid Sector 7 (Primary Demo)",
+  "objectives": [
+    "Identify and cross-reference divergent intelligence feeds under temporal delay",
+    "Resolve information asymmetry between Team Lead and Specialist roles before committing assets"
+  ],
+  "reason": "ENDED BY INSTRUCTOR",
+  "startedAt": "2026-10-04T11:53:22.836Z",
+  "endedAt": "2026-10-04T11:58:14.176Z",
+  "durationSeconds": 289,
+  "score": {
+    "total": 60,
+    "max": 100,
+    "percent": 60,
+    "grade": "SATISFACTORY",
+    "decisionPoints": 60,
+    "decisionMax": 60,
+    "infoPoints": 0,
+    "infoMax": 40
+  },
+  "decisions": [
+    {
+      "decisionId": "DP_AXIS_BRAVO_STRIKE",
+      "prompt": "Eagle-1 insists mechanized convoy is advancing. Specialist reports decoy Doppler and OP Echo warns of ambush. Issue order:",
+      "openedAt": 12,
+      "answered": true,
+      "timedOut": false,
+      "optionId": "OPT_HOLD_VERIFY",
+      "label": "Hold Bridgehead & Request Cross-Verification",
+      "decidedAt": 88,
+      "responseSeconds": 76,
+      "rating": "OPTIMAL",
+      "score": 100,
+      "feedback": "Held the bridgehead and sought cross-verification before committing assets. This is the sound response to conflicting feeds."
+    }
+  ],
+  "checks": [
+    {
+      "checkId": "TL_HAS_RADAR",
+      "description": "Team Lead obtained the radar Doppler anomaly before deciding",
+      "passed": false,
+      "points": 0,
+      "maxPoints": 20,
+      "receivedAt": null,
+      "via": null,
+      "clarity": null,
+      "note": "received but too garbled"
+    },
+    {
+      "checkId": "TL_HAS_HUMINT",
+      "description": "Team Lead obtained the OP Echo decoy warning before deciding",
+      "passed": false,
+      "points": 0,
+      "maxPoints": 20,
+      "receivedAt": null,
+      "via": null,
+      "clarity": null,
+      "note": "received but too garbled"
+    }
+  ],
+  "comms": {
+    "commanderAvgClarity": 36,
+    "repeatRequests": 1,
+    "relays": 2,
+    "dropped": 0
+  },
+  "timeline": [
+    {
+      "t": 3,
+      "text": "TEAM LEAD received Eagle-1 Tactical Optical UAV at 100% clarity"
+    },
+    {
+      "t": 3,
+      "text": "INFORMATION received Eagle-1 Tactical Optical UAV at 100% clarity"
+    },
+    {
+      "t": 6,
+      "text": "INFORMATION received Sentinel Tactical Ground Radar at 100% clarity"
+    },
+    {
+      "t": 9,
+      "text": "INFORMATION received Forward Observation Post Echo at 100% clarity"
+    },
+    {
+      "t": 12,
+      "text": "Decision opened: DP_AXIS_BRAVO_STRIKE"
+    },
+    {
+      "t": 23,
+      "text": "INSTRUCTOR set link conditions: jam TL 50% / INFO 0%, delay 0s, loss 0%"
+    },
+    {
+      "t": 26,
+      "text": "INSTRUCTOR set link conditions: jam TL 50% / INFO 35%, delay 0s, loss 0%"
+    },
+    {
+      "t": 27,
+      "text": "INSTRUCTOR set link conditions: jam TL 50% / INFO 40%, delay 0s, loss 0%"
+    },
+    {
+      "t": 28,
+      "text": "INSTRUCTOR set link conditions: jam TL 50% / INFO 40%, delay 5s, loss 0%"
+    },
+    {
+      "t": 30,
+      "text": "INSTRUCTOR set link conditions: jam TL 50% / INFO 40%, delay 15s, loss 0%"
+    },
+    {
+      "t": 34,
+      "text": "INSTRUCTOR set link conditions: jam TL 50% / INFO 40%, delay 7s, loss 0%"
+    },
+    {
+      "t": 47,
+      "text": "INSTRUCTOR set link conditions: jam TL 50% / INFO 40%, delay 7s, loss 10%"
+    },
+    {
+      "t": 48,
+      "text": "INSTRUCTOR set link conditions: jam TL 50% / INFO 40%, delay 7s, loss 25%"
+    },
+    {
+      "t": 51,
+      "text": "INSTRUCTOR set link conditions: jam TL 50% / INFO 40%, delay 5s, loss 25%"
+    },
+    {
+      "t": 53,
+      "text": "INSTRUCTOR set link conditions: jam TL 50% / INFO 50%, delay 5s, loss 25%"
+    },
+    {
+      "t": 57,
+      "text": "INSTRUCTOR set link conditions: jam TL 30% / INFO 50%, delay 5s, loss 25%"
+    },
+    {
+      "t": 59,
+      "text": "INSTRUCTOR set link conditions: jam TL 80% / INFO 30%, delay 5s, loss 25%"
+    },
+    {
+      "t": 61,
+      "text": "INSTRUCTOR set link conditions: jam TL 80% / INFO 30%, delay 5s, loss 25%"
+    },
+    {
+      "t": 88,
+      "text": "TEAM LEAD ordered: Hold Bridgehead & Request Cross-Verification"
+    },
+    {
+      "t": 96,
+      "text": "INFORMATION relayed Sentinel Tactical Ground Radar to TEAM LEAD"
+    },
+    {
+      "t": 99,
+      "text": "INFORMATION relayed Forward Observation Post Echo to TEAM LEAD"
+    },
+    {
+      "t": 101,
+      "text": "TEAM LEAD received Sentinel Tactical Ground Radar at 10% clarity (relayed by team)"
+    },
+    {
+      "t": 105,
+      "text": "TEAM LEAD received Forward Observation Post Echo at 14% clarity (relayed by team)"
+    },
+    {
+      "t": 113,
+      "text": "TEAM LEAD asked for a repeat of Sentinel Tactical Ground Radar"
+    },
+    {
+      "t": 118,
+      "text": "TEAM LEAD received Sentinel Tactical Ground Radar at 20% clarity (relayed by team) (repeat #1)"
+    },
+    {
+      "t": 132,
+      "text": "INSTRUCTOR set link conditions: jam TL 80% / INFO 30%, delay 5s, loss 25%"
+    },
+    {
+      "t": 134,
+      "text": "INSTRUCTOR set link conditions: jam TL 25% / INFO 30%, delay 5s, loss 25%"
+    },
+    {
+      "t": 136,
+      "text": "INSTRUCTOR set link conditions: jam TL 25% / INFO 40%, delay 5s, loss 25%"
+    },
+    {
+      "t": 138,
+      "text": "INSTRUCTOR set link conditions: jam TL 25% / INFO 10%, delay 5s, loss 25%"
+    },
+    {
+      "t": 140,
+      "text": "INSTRUCTOR set link conditions: jam TL 25% / INFO 10%, delay 12s, loss 25%"
+    },
+    {
+      "t": 143,
+      "text": "INSTRUCTOR set link conditions: jam TL 25% / INFO 10%, delay 12s, loss 10%"
+    },
+    {
+      "t": 216,
+      "text": "INSTRUCTOR set link conditions: jam TL 0% / INFO 0%, delay 12s, loss 10%"
+    },
+    {
+      "t": 217,
+      "text": "INSTRUCTOR set link conditions: jam TL 0% / INFO 0%, delay 12s, loss 10%"
+    },
+    {
+      "t": 221,
+      "text": "INSTRUCTOR set link conditions: jam TL 0% / INFO 0%, delay 0s, loss 10%"
+    },
+    {
+      "t": 225,
+      "text": "INSTRUCTOR set link conditions: jam TL 0% / INFO 0%, delay 0s, loss 0%"
+    }
+  ]
+}

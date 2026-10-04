@@ -1,0 +1,337 @@
+{
+  "scenario_id": "conflicting-picture",
+  "version": "1.3.0",
+  "title": "Scenario B: Conflicting Picture in Grid Sector 7 (Primary Demo)",
+  "description": "Multi-source reconnaissance reports contradictory movement signatures during an active forward reconnaissance patrol.",
+  "learning_objectives": [
+    "Identify and cross-reference divergent intelligence feeds under temporal delay",
+    "Resolve information asymmetry between Team Lead and Specialist roles before committing assets"
+  ],
+  "seed": 424242,
+  "duration_seconds": 360,
+  "roles": [
+    {
+      "role_id": "TEAM_LEAD",
+      "title": "Task Force Lead Commander",
+      "clearance_level": "CMD_AUTHORITY"
+    },
+    {
+      "role_id": "COORDINATION",
+      "title": "Tactical Operations",
+      "clearance_level": "OPS_COORDINATION"
+    },
+    {
+      "role_id": "INFORMATION",
+      "title": "Electronic Warfare",
+      "clearance_level": "SIG_INTELLIGENCE"
+    }
+  ],
+  "information_sources": [
+    {
+      "source_id": "SOURCE_A_UAV",
+      "name": "Eagle-1 Tactical Optical UAV",
+      "type": "OPTICAL_FEED",
+      "default_assigned_roles": [
+        "TEAM_LEAD",
+        "COORDINATION"
+      ]
+    },
+    {
+      "source_id": "SOURCE_B_RADAR",
+      "name": "Sentinel Tactical Ground Radar",
+      "type": "RADAR_TELEMETRY",
+      "default_assigned_roles": [
+        "COORDINATION",
+        "INFORMATION"
+      ]
+    },
+    {
+      "source_id": "SOURCE_C_HUMINT",
+      "name": "Forward Observation Post Echo",
+      "type": "HUMINT_DISPATCH",
+      "default_assigned_roles": [
+        "INFORMATION"
+      ]
+    }
+  ],
+  "world_state": {
+    "grid_sector": "GRID_7_BRAVO",
+    "unit_start": {
+      "lat": 28.5948,
+      "lng": 77.2005
+    }
+  },
+  "scheduled_events": [
+    {
+      "time_seconds": 3,
+      "event_type": "INFORMATION_GENERATED",
+      "source_id": "SOURCE_A_UAV",
+      "payload": {
+        "status": "HOSTILE_SIGHTING",
+        "summary": "Eagle-1 visual confirms 6 vehicles on Axis Bravo moving toward Sector 7 bridgehead."
+      },
+      "map_tracks": [
+        {
+          "entity_id": "TRK-849",
+          "label": "TRK-849",
+          "kind": "hostile",
+          "lat": 28.5992,
+          "lng": 77.2078
+        }
+      ],
+      "key_terms": [
+        "vehicles",
+        "bravo"
+      ]
+    },
+    {
+      "time_seconds": 6,
+      "event_type": "INFORMATION_GENERATED",
+      "source_id": "SOURCE_B_RADAR",
+      "payload": {
+        "status": "DOPPLER_ANOMALY",
+        "summary": "Sentinel Radar returns indicate intermittent RCS inconsistent with heavy armor."
+      },
+      "map_tracks": [
+        {
+          "entity_id": "TRK-849",
+          "label": "TRK-849?",
+          "kind": "suspect",
+          "lat": 28.5992,
+          "lng": 77.2078
+        }
+      ],
+      "key_terms": [
+        "inconsistent",
+        "armor"
+      ]
+    },
+    {
+      "time_seconds": 9,
+      "event_type": "INFORMATION_GENERATED",
+      "source_id": "SOURCE_C_HUMINT",
+      "payload": {
+        "status": "CONFIRMED_DECOY_DISPATCH",
+        "observation": "Axis Bravo convoy is unmanned tractor decoys. Actual hostile force concealed on Ridge Charlie!"
+      },
+      "map_tracks": [
+        {
+          "entity_id": "TRK-849",
+          "label": "DECOY",
+          "kind": "decoy",
+          "lat": 28.5992,
+          "lng": 77.2078
+        },
+        {
+          "entity_id": "TRK-RIDGE-C",
+          "label": "RIDGE-C",
+          "kind": "hostile",
+          "lat": 28.5932,
+          "lng": 77.2121
+        }
+      ],
+      "key_terms": [
+        "decoys",
+        "ridge",
+        "charlie"
+      ]
+    }
+  ],
+  "degradation_rules": [],
+  "decision_points": [
+    {
+      "decision_point_id": "DP_AXIS_BRAVO_STRIKE",
+      "trigger_time_seconds": 12,
+      "decision_type": "ACTION_DISPATCH",
+      "prompt": "Eagle-1 insists mechanized convoy is advancing. Specialist reports decoy Doppler and OP Echo warns of ambush. Issue order:",
+      "allowed_roles": [
+        "TEAM_LEAD"
+      ],
+      "options": [
+        {
+          "option_id": "OPT_IMMEDIATE_STRIKE",
+          "label": "Commit Quick Reaction Force to Axis Bravo",
+          "description": "Intercept the visible convoy on Axis Bravo immediately."
+        },
+        {
+          "option_id": "OPT_HOLD_VERIFY",
+          "label": "Hold Bridgehead & Request Cross-Verification",
+          "description": "Maintain defensive posture and authenticate Doppler anomaly."
+        },
+        {
+          "option_id": "OPT_FLANK_CHARLIE",
+          "label": "Preemptive Recon Flank to Ridge Charlie",
+          "description": "Probe Ridge Charlie while screening Axis Bravo."
+        }
+      ],
+      "timeout_seconds": 90
+    }
+  ],
+  "outcome_rules": [
+    {
+      "decision_point_id": "DP_AXIS_BRAVO_STRIKE",
+      "option_id": "OPT_HOLD_VERIFY",
+      "delay_seconds": 6,
+      "tone": "success",
+      "title": "BRIDGEHEAD HELD",
+      "message": "Cross-verification confirms the Axis Bravo convoy is unmanned. The force on Ridge Charlie moves early and is exposed. The bridgehead is intact and no losses are reported.",
+      "map_tracks": [
+        {
+          "entity_id": "TRK-RIDGE-C",
+          "label": "RIDGE-C (EXPOSED)",
+          "kind": "hostile",
+          "lat": 28.5932,
+          "lng": 77.2121
+        }
+      ]
+    },
+    {
+      "decision_point_id": "DP_AXIS_BRAVO_STRIKE",
+      "option_id": "OPT_FLANK_CHARLIE",
+      "delay_seconds": 8,
+      "tone": "warning",
+      "title": "RECON ELEMENT COMPROMISED",
+      "message": "The recon team reaches Ridge Charlie and makes contact. Heavy fire forces it to withdraw with casualties. The bridgehead stays secure, but the enemy now knows it was found.",
+      "map_tracks": [
+        {
+          "entity_id": "RECON-1",
+          "label": "RECON-1 (CONTACT)",
+          "kind": "friendly",
+          "lat": 28.594,
+          "lng": 77.2105
+        }
+      ]
+    },
+    {
+      "decision_point_id": "DP_AXIS_BRAVO_STRIKE",
+      "option_id": "OPT_IMMEDIATE_STRIKE",
+      "delay_seconds": 6,
+      "tone": "failure",
+      "title": "QRF LOST ON AXIS BRAVO",
+      "message": "The QRF engages the convoy and finds only unmanned tractors. The force on Ridge Charlie then strikes the undefended bridgehead from the flank.",
+      "map_tracks": [
+        {
+          "entity_id": "QRF-1",
+          "label": "QRF-1 (LOST)",
+          "kind": "friendly",
+          "lat": 28.599,
+          "lng": 77.207
+        },
+        {
+          "entity_id": "TRK-RIDGE-C",
+          "label": "RIDGE-C (ATTACKING)",
+          "kind": "hostile",
+          "lat": 28.5932,
+          "lng": 77.2121
+        }
+      ]
+    },
+    {
+      "decision_point_id": "DP_AXIS_BRAVO_STRIKE",
+      "option_id": "NO_DECISION",
+      "delay_seconds": 4,
+      "tone": "failure",
+      "title": "NO ORDER ISSUED",
+      "message": "No orders were given in time. The force on Ridge Charlie advances and the bridgehead is caught unprepared.",
+      "map_tracks": [
+        {
+          "entity_id": "TRK-RIDGE-C",
+          "label": "RIDGE-C (ADVANCING)",
+          "kind": "hostile",
+          "lat": 28.5932,
+          "lng": 77.2121
+        }
+      ]
+    }
+  ],
+  "evaluation_rules": {
+    "decision_weight": 60,
+    "decisions": {
+      "DP_AXIS_BRAVO_STRIKE": {
+        "OPT_HOLD_VERIFY": {
+          "score": 100,
+          "rating": "OPTIMAL",
+          "feedback": "Held the bridgehead and sought cross-verification before committing assets. This is the sound response to conflicting feeds."
+        },
+        "OPT_FLANK_CHARLIE": {
+          "score": 70,
+          "rating": "ACCEPTABLE",
+          "feedback": "Avoided the decoy, but acted on a single unverified HUMINT report and risked exposing the recon element."
+        },
+        "OPT_IMMEDIATE_STRIKE": {
+          "score": 0,
+          "rating": "POOR",
+          "feedback": "Committed the QRF against a decoy convoy on one feed while contradicting reports existed, leaving the bridgehead exposed to the real force on Ridge Charlie."
+        }
+      }
+    },
+    "information_checks": [
+      {
+        "check_id": "TL_HAS_RADAR",
+        "description": "Team Lead obtained the radar Doppler anomaly before deciding",
+        "source_id": "SOURCE_B_RADAR",
+        "role": "TEAM_LEAD",
+        "before_decision": "DP_AXIS_BRAVO_STRIKE",
+        "points": 20
+      },
+      {
+        "check_id": "TL_HAS_HUMINT",
+        "description": "Team Lead obtained the OP Echo decoy warning before deciding",
+        "source_id": "SOURCE_C_HUMINT",
+        "role": "TEAM_LEAD",
+        "before_decision": "DP_AXIS_BRAVO_STRIKE",
+        "points": 20
+      }
+    ],
+    "min_key_ratio": 0.5,
+    "specialist_rules": {
+      "response_window_seconds": 20,
+      "relay_checks": [
+        {
+          "check_id": "SP_RELAY_RADAR",
+          "description": "Information relayed the radar Doppler anomaly to the Team Lead before the decision",
+          "source_id": "SOURCE_B_RADAR",
+          "before_decision": "DP_AXIS_BRAVO_STRIKE",
+          "points": 20
+        },
+        {
+          "check_id": "SP_RELAY_HUMINT",
+          "description": "Information relayed the OP Echo decoy warning to the Team Lead before the decision",
+          "source_id": "SOURCE_C_HUMINT",
+          "before_decision": "DP_AXIS_BRAVO_STRIKE",
+          "points": 20
+        }
+      ]
+    }
+  },
+  "instructor_injects": [
+    {
+      "inject_id": "INJ_UAV_LOSS",
+      "label": "UAV feed lost",
+      "source_id": "SOURCE_A_UAV",
+      "payload": {
+        "status": "FEED_LOST",
+        "summary": "Eagle-1 optical feed lost. Link reacquiring."
+      },
+      "map_tracks": [],
+      "key_terms": [
+        "feed",
+        "lost"
+      ]
+    },
+    {
+      "inject_id": "INJ_ECHO_NOISE",
+      "label": "OP Echo: engine noise on Ridge Charlie",
+      "source_id": "SOURCE_C_HUMINT",
+      "payload": {
+        "status": "ADDITIONAL_DISPATCH",
+        "observation": "Engine noise on Ridge Charlie is increasing. Heavy vehicles are moving into position."
+      },
+      "map_tracks": [],
+      "key_terms": [
+        "engine",
+        "ridge"
+      ]
+    }
+  ]
+}
