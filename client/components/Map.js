@@ -63,6 +63,7 @@ function ClickHandler() {
   return null;
 }
 
+// Wraps onto two lines on narrow phone screens instead of running off the edge.
 function Legend() {
   const items = [
     ['hostile', 'HOSTILE'],
@@ -71,9 +72,9 @@ function Legend() {
     ['friendly', 'FRIENDLY'],
   ];
   return (
-    <div className="absolute bottom-3 left-3 z-[500] border border-green-900 bg-black/80 px-3 py-2 font-mono text-[10px] flex gap-4">
+    <div className="absolute bottom-2 left-2 md:bottom-3 md:left-3 z-[500] max-w-[calc(100%-1rem)] border border-green-900 bg-black/80 px-2 md:px-3 py-1 md:py-2 font-mono text-[10px] flex flex-wrap gap-x-3 md:gap-x-4 gap-y-0.5">
       {items.map(([kind, name]) => (
-        <span key={kind} className={`${STYLES[kind].text} tracking-widest`}>
+        <span key={kind} className={`${STYLES[kind].text} tracking-wider md:tracking-widest`}>
           ■ {name}
         </span>
       ))}

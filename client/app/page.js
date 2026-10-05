@@ -6,6 +6,19 @@ import { playTransmission } from './store/radio';
 
 const TacticalMap = dynamic(() => import('../components/Map'), { ssr: false });
 
+// True on phone-sized screens, so the layout can switch to tabs.
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const update = () => setMobile(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+  return mobile;
+}
+
 function SysClock() {
   const [time, setTime] = useState('00:00:00Z');
   useEffect(() => {
@@ -30,7 +43,7 @@ function ExerciseStatus() {
     ? 'EXERCISE COMPLETE'
     : 'STANDBY';
   const prefix = count > 1 && (running || complete) ? `SCENARIO ${index + 1}/${count} // ` : '';
-  return <span className="font-bold tracking-widest text-white">{prefix + label}</span>;
+  return <span className="font-bold tracking-wide md:tracking-widest text-white">{prefix + label}</span>;
 }
 
 function RecordingBadge() {
@@ -94,7 +107,7 @@ function Notice() {
   if (!notice) return null;
   return (
     <div
-      className={`absolute top-14 left-1/2 -translate-x-1/2 z-[1100] border bg-black px-5 py-2 text-xs tracking-widest ${
+      className={`absolute top-2 left-1/2 -translate-x-1/2 z-[1100] w-max max-w-[92%] text-center border bg-black px-4 py-2 text-xs tracking-widest ${
         TONES[notice.tone] || TONES.info
       }`}
     >
@@ -258,7 +271,9 @@ function CommsPanel() {
   );
 }
 
-function IntelFeed() {
+function IntelFeed({ show = 'all' }) {
+  const showTools = show !== 'feed';
+  const showFeed = show !== 'tools';
   const intelFeed = useStore((s) => s.intelFeed);
   const decisionLog = useStore((s) => s.decisionLog);
   const relayedIds = useStore((s) => s.relayedIds);
@@ -277,11 +292,17 @@ function IntelFeed() {
   return (
     <div
       ref={scrollRef}
-      className="w-96 shrink-0 min-h-0 h-full border-r border-green-900 bg-black/90 p-4 flex flex-col gap-4 overflow-y-auto"
+      className="flex-1 md:flex-none w-full md:w-96 md:shrink-0 min-h-0 h-full md:border-r border-green-900 bg-black/90 p-3 md:p-4 flex flex-col gap-4 overflow-y-auto"
     >
-      {role === 'instructor' && <ConditionsPanel />}
-      {role === 'instructor' && <InjectPanel />}
-      <CommsPanel />
+      {showTools && (
+        <>
+          {role === 'instructor' && <ConditionsPanel />}
+          {role === 'instructor' && <InjectPanel />}
+          <CommsPanel />
+        </>
+      )}
+      {showFeed && (
+        <>
       <h2 className="text-[10px] text-green-700 tracking-widest border-b border-green-900 pb-2">
         {role === 'instructor' ? 'ALL INTEL (INSTRUCTOR VIEW)' : 'ACTIVE INTELLIGENCE FEED'}
       </h2>
@@ -383,6 +404,8 @@ function IntelFeed() {
           ))}
         </>
       )}
+        </>
+      )}
     </div>
   );
 }
@@ -393,17 +416,39 @@ function DecisionPanel() {
   const dp = useStore((s) => s.activeDecision);
   const clock = useStore((s) => s.simClock);
   const submitDecision = useStore((s) => s.submitDecision);
+  const [open, setOpen] = useState(true);
+  const dpId = dp ? dp.decision_point_id : null;
+  useEffect(() => {
+    setOpen(true); // a new decision always opens expanded
+  }, [dpId]);
 
   if (!dp || role !== 'commander') return null;
   const remaining = dp.timeout_seconds
     ? Math.max(0, dp.trigger_time_seconds + dp.timeout_seconds - clock)
     : null;
 
+  // Phones: the panel can be tucked away to a bar so the feed and map stay readable.
+  if (!open) {
+    return (
+      <button
+        onClick={() => setOpen(true)}
+        className="absolute bottom-2 left-2 right-2 md:hidden z-[1000] border-2 border-red-600 bg-black text-red-500 font-bold tracking-widest text-xs py-3 animate-pulse"
+      >
+        !! DECISION REQUIRED !! {remaining !== null && `${remaining}s LEFT `}- TAP TO OPEN
+      </button>
+    );
+  }
+
   return (
-    <div className="absolute bottom-4 right-4 z-[1000] w-[28rem] max-w-[calc(100%-2rem)] max-h-[calc(100%-2rem)] overflow-y-auto border-2 border-red-600 bg-black p-5 shadow-[0_0_40px_rgba(255,0,0,0.25)]">
-      <div className="flex justify-between text-red-500 font-bold tracking-widest text-xs mb-3 animate-pulse">
-        <span>!! DECISION REQUIRED !!</span>
-        {remaining !== null && <span>{remaining}s LEFT</span>}
+    <div className="absolute inset-x-2 bottom-2 md:inset-x-auto md:bottom-4 md:right-4 z-[1000] md:w-[28rem] max-h-[calc(100%-1rem)] md:max-h-[calc(100%-2rem)] overflow-y-auto border-2 border-red-600 bg-black p-4 md:p-5 shadow-[0_0_40px_rgba(255,0,0,0.25)]">
+      <div className="flex justify-between items-center text-red-500 font-bold tracking-widest text-xs mb-3">
+        <span className="animate-pulse">!! DECISION REQUIRED !!</span>
+        <span className="flex items-center gap-3">
+          {remaining !== null && <span>{remaining}s LEFT</span>}
+          <button onClick={() => setOpen(false)} className="md:hidden border border-red-600 px-3 py-1 text-[10px]">
+            HIDE
+          </button>
+        </span>
       </div>
       <p className="text-white text-xs mb-4">{dp.prompt}</p>
       <div className="flex flex-col gap-2">
@@ -449,9 +494,9 @@ function EvaluationModal() {
   };
 
   return (
-    <div className="absolute inset-0 z-[1200] bg-black/95 overflow-y-auto p-6">
-      <div className="max-w-3xl mx-auto border-2 border-amber-600 bg-black p-6 text-xs">
-        <div className="flex justify-between items-start mb-4">
+    <div className="absolute inset-0 z-[1200] bg-black/95 overflow-y-auto p-2 md:p-6">
+      <div className="max-w-3xl mx-auto border-2 border-amber-600 bg-black p-3 md:p-6 text-xs">
+        <div className="flex flex-col md:flex-row md:justify-between items-start gap-3 mb-4">
           <div>
             <div className="text-amber-500 font-bold tracking-widest text-sm">AFTER ACTION REVIEW</div>
             <div className="text-green-700 mt-1">{evaluation.scenario}</div>
@@ -493,7 +538,7 @@ function EvaluationModal() {
         )}
 
         <div className="border border-green-900 p-4 mb-4 flex items-center gap-6">
-          <div className="text-5xl font-bold text-white">{score.percent}%</div>
+          <div className="text-4xl md:text-5xl font-bold text-white">{score.percent}%</div>
           <div>
             <div className="text-amber-500 font-bold tracking-widest">{score.grade}</div>
             <div className="text-green-600 mt-1">
@@ -528,11 +573,11 @@ function EvaluationModal() {
 
         <h3 className="text-[10px] text-green-700 tracking-widest mb-2 mt-4">INFORMATION USE</h3>
         {evaluation.checks.map((c) => (
-          <div key={c.checkId} className="border border-green-900 p-3 mb-2 flex justify-between gap-4">
+          <div key={c.checkId} className="border border-green-900 p-3 mb-2 flex flex-col md:flex-row md:justify-between gap-1 md:gap-4">
             <span className={c.passed ? 'text-green-400' : 'text-red-400'}>
               {c.passed ? 'PASS' : 'FAIL'} - {c.description}
             </span>
-            <span className="text-green-600 whitespace-nowrap">
+            <span className="text-green-600 md:whitespace-nowrap">
               {c.passed ? `T+${c.receivedAt}s, ${c.via}, ${c.clarity}% clear, ` : `${c.note}, `}
               {c.points}/{c.maxPoints}
             </span>
@@ -547,11 +592,11 @@ function EvaluationModal() {
               {evaluation.specialist.percent !== null && ` (${evaluation.specialist.percent}%)`}
             </div>
             {evaluation.specialist.checks.map((c) => (
-              <div key={c.checkId} className="border border-green-900 p-3 mb-2 flex justify-between gap-4">
+              <div key={c.checkId} className="border border-green-900 p-3 mb-2 flex flex-col md:flex-row md:justify-between gap-1 md:gap-4">
                 <span className={c.passed ? 'text-green-400' : 'text-red-400'}>
                   {c.passed ? 'PASS' : 'FAIL'} - {c.description}
                 </span>
-                <span className="text-green-600 whitespace-nowrap">
+                <span className="text-green-600 md:whitespace-nowrap">
                   {c.passed ? `relayed T+${c.relayedAt}s, ` : 'never relayed in time, '}
                   {c.points}/{c.maxPoints}
                 </span>
@@ -604,13 +649,13 @@ function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-green-500 font-mono p-4 selection:bg-green-900">
-      <div className="border border-green-800 p-12 bg-green-950/10 shadow-[0_0_30px_rgba(0,255,0,0.1)]">
-        <h1 className="text-3xl font-bold mb-2 tracking-widest text-center">TACTICAL EXERCISE</h1>
+      <div className="w-full max-w-sm md:max-w-none md:w-auto border border-green-800 p-6 md:p-12 bg-green-950/10 shadow-[0_0_30px_rgba(0,255,0,0.1)]">
+        <h1 className="text-2xl md:text-3xl font-bold mb-2 tracking-widest text-center">TACTICAL EXERCISE</h1>
         <p className="text-xs text-green-700 text-center mb-8 uppercase tracking-widest">
           {connecting ? 'Connecting to simulation core...' : 'Simulation Core Active'}
         </p>
 
-        <label className="block w-72 mb-4 text-[10px] text-green-700 tracking-widest">
+        <label className="block w-full md:w-72 mb-4 text-[10px] text-green-700 tracking-widest">
           SESSION ID (SAME ON EVERY TERMINAL IN ONE EXERCISE)
           <input
             value={sessionId}
@@ -621,7 +666,7 @@ function Login() {
           />
         </label>
 
-        <div className="flex flex-col gap-4 w-72">
+        <div className="flex flex-col gap-4 w-full md:w-72">
           <button
             disabled={connecting}
             onClick={() => connect('instructor')}
@@ -655,15 +700,45 @@ export default function Home() {
   const isConnected = useStore((s) => s.isConnected);
   const role = useStore((s) => s.role);
   const sessionId = useStore((s) => s.sessionId);
+  const hasDecision = useStore((s) => Boolean(s.activeDecision));
+  const intelCount = useStore((s) => s.intelFeed.length);
+  const isMobile = useIsMobile();
+
+  // Phones show one panel at a time: the feed, the map, or the radio/controls.
+  const [tab, setTab] = useState('feed');
+  const [seen, setSeen] = useState(0);
+
+  // Count reports that arrived while the trainee was looking at another tab.
+  useEffect(() => {
+    setSeen((prev) => (tab === 'feed' || !isMobile ? intelCount : Math.min(prev, intelCount)));
+  }, [tab, isMobile, intelCount]);
+
+  // The map was hidden, so Leaflet needs a nudge to redraw when it comes back.
+  useEffect(() => {
+    if (tab !== 'map') return;
+    const id = setTimeout(() => window.dispatchEvent(new Event('resize')), 60);
+    return () => clearTimeout(id);
+  }, [tab, isMobile]);
 
   if (!isConnected) return <Login />;
 
-  return (
-    <div className="relative flex flex-col h-screen bg-black text-green-500 font-mono overflow-hidden">
-      <Notice />
+  const unseen = Math.max(0, intelCount - seen);
+  const tabs = [
+    ['feed', 'INTEL'],
+    ['map', 'MAP'],
+    ['tools', role === 'instructor' ? 'CONTROLS' : 'RADIO'],
+  ];
+  const showMap = !isMobile || tab === 'map';
+  const showFeed = !isMobile || tab !== 'map';
+  const feedShow = !isMobile ? 'all' : tab === 'tools' ? 'tools' : 'feed';
 
-      <header className="h-12 shrink-0 border-b border-green-900 bg-black/90 flex justify-between items-center px-4 text-xs">
-        <div className="flex items-center gap-6">
+  return (
+    <div
+      className="relative flex flex-col h-screen bg-black text-green-500 font-mono overflow-hidden max-md:[&_button]:min-h-10"
+      style={{ height: '100dvh' }}
+    >
+      <header className="shrink-0 border-b border-green-900 bg-black/90 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-3 md:px-4 py-1 md:py-0 md:h-12 text-xs">
+        <div className="flex flex-wrap items-center gap-x-4 md:gap-x-6 min-w-0">
           <ExerciseStatus />
           <span className="text-amber-500">ROLE: [ {role.toUpperCase()} ]</span>
           <span className="text-green-700">SESSION: {sessionId || 'alpha-1'}</span>
@@ -671,23 +746,53 @@ export default function Home() {
 
         {role === 'instructor' && <InstructorControls />}
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 md:gap-6">
           <MuteButton />
-          <RecordingBadge />
-          <SysClock />
+          <span className="hidden md:inline">
+            <RecordingBadge />
+          </span>
+          <span className="hidden md:inline">
+            <SysClock />
+          </span>
         </div>
       </header>
 
-      <main className="flex-1 min-h-0 flex relative">
-        <IntelFeed />
+      <main className="flex-1 min-h-0 flex flex-col md:flex-row relative">
+        <Notice />
 
-        <div className="flex-1 min-w-0 min-h-0 relative">
+        {showFeed && <IntelFeed show={feedShow} />}
+
+        <div className={`${showMap ? 'block' : 'hidden'} flex-1 min-w-0 min-h-0 relative`}>
           <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] z-[400] opacity-30"></div>
           <TacticalMap />
         </div>
 
         <DecisionPanel />
       </main>
+
+      {isMobile && (
+        <nav className="shrink-0 grid grid-cols-3 border-t border-green-900 bg-black">
+          {tabs.map(([id, label]) => (
+            <button
+              key={id}
+              onClick={() => setTab(id)}
+              className={`py-3 text-xs tracking-widest border-t-2 ${
+                tab === id
+                  ? 'text-amber-400 border-amber-500 bg-amber-950/20'
+                  : 'text-green-600 border-transparent'
+              }`}
+            >
+              {label}
+              {id === 'feed' && tab !== 'feed' && unseen > 0 && (
+                <span className="ml-2 bg-amber-500 text-black px-1 font-bold">{unseen}</span>
+              )}
+              {id === 'feed' && tab !== 'feed' && role === 'commander' && hasDecision && (
+                <span className="ml-1 text-red-500 animate-pulse">●</span>
+              )}
+            </button>
+          ))}
+        </nav>
+      )}
 
       <EvaluationModal />
     </div>
